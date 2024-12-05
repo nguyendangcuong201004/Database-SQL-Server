@@ -1,0 +1,45 @@
+extends ../../layouts/default.pug 
+include ../../mixins/alert.pug
+
+block main
+    .container
+
+        +alert-success()
+        +alert-error()
+
+        
+        .card.mb-3 
+            .card-header Danh sách bệnh nhân đã xóa 
+            .card-body 
+                .row     
+                    .col-8 
+                    .col-4 
+            table(
+                class="table table-hover table-sm patients"
+                )
+                thead 
+                    tr 
+                        th(style="text-align: center") PatientId
+                        th Họ và tên
+                        th Ngày sinh
+                        th Giới tính
+                        th Địa chỉ
+                        th(class="action") Hành động
+                tbody 
+                    each patient in patients
+                        tr
+                            td(style="text-align: center") #{patient.PatientID}
+                            td #{patient.FullName}
+                            td #{patient.birth}
+                            td #{patient.Gender}
+                            td #{patient.Address}
+                            td
+                                button(
+                                    class="btn btn-danger btn-sm ml-5"
+                                    button-restore=""
+                                    patient-id=patient.PatientID) Khôi phục
+        form(
+            form-restore-button
+            method='POST' 
+            action="" 
+            data-patch=`/patients/bin/restore`)

@@ -1,0 +1,57 @@
+extends ../../layouts/default.pug 
+include ../../mixins/alert.pug
+
+block main
+    .container
+
+        +alert-success()
+        +alert-error()
+
+        
+        .card.mb-3 
+            .card-header Danh sách bệnh nhân
+            .card-body 
+                .row     
+                    .col-8 
+                    .col-4 
+                        a(href=`patients/create`
+                            class="btn btn-outline-success ml-5") + Thêm mới bệnh nhân
+                            
+                        a(href="patients/bin" class="btn btn-danger btn-sm ml-1") Thùng rác
+            table(
+                class="table table-hover table-sm patients"
+                )
+                thead 
+                    tr 
+                        th(style="text-align: center") PatientId
+                        th Họ và tên
+                        th Ngày sinh
+                        th Giới tính
+                        th Địa chỉ
+                        th(class="action") Hành động
+                tbody 
+                    each patient in patients
+                        tr
+                            td(style="text-align: center") #{patient.PatientID}
+                            td #{patient.FullName}
+                            td #{patient.birth}
+                            td #{patient.Gender}
+                            td #{patient.Address}
+                            td
+                                a(
+                                    class="btn btn-warning btn-sm"
+                                    href=`patients/edit/${patient.PatientID}`
+                                ) Chỉnh sửa
+                                button(
+                                    class="btn btn-danger btn-sm ml-1"
+                                    button-delete=""
+                                    patient-id=patient.PatientID) Xóa
+                                a(
+                                    class="btn btn-info btn-sm ml-1"
+                                    href=`patients/detail/${patient.PatientID}`
+                                ) Chi tiết 
+        form(
+            form-delete-button
+            method='POST' 
+            action="" 
+            data-patch=`patients/delete`)

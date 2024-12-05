@@ -1,0 +1,93 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+
+block main  
+
+    .container 
+
+        +alert-success()
+        +alert-error()
+
+        h1(class="mb-4") Cập nhật thông tin bệnh nhân
+
+        form(
+            action=`/patients/edit/${patient.PatientID}?_method=PATCH`
+            id="form-edit-patient"
+            method="POST"
+        )
+            div(class="form-group")
+                label(for="FullName") Họ và tên
+                input(
+                    type="text"
+                    class="form-control"
+                    id="FullName"
+                    name="FullName"
+                    value=patient.FullName
+                    required 
+                )
+            div(class="form-group")
+                label(for="Email") Email
+                input(
+                    type="email"
+                    class="form-control"
+                    id="Email"
+                    name="Email"
+                    value=patient.Email
+                    required 
+                )
+            div(class="form-group")
+                label(for="Date_Of_Birth") Ngày sinh
+                input(
+                    type="date"
+                    class="form-control"
+                    id="Date_Of_Birth"
+                    name="Date_Of_Birth"
+                    value=patient.formattedDate
+                    required 
+                )
+            div(class="form-group form-check form-check-inline")
+                input(
+                    type="radio"
+                    class="form-check-input"
+                    id="nam"
+                    name="Gender"
+                    value="Nam"
+                    checked=(true ? patient.Gender == "Nam" : false)
+                )
+                label(for="statusActive" class="form-check-label") Nam
+            div(class="form-group form-check form-check-inline")
+                input(
+                    type="radio"
+                    class="form-check-input"
+                    id="nu"
+                    name="Gender"
+                    value="Nu"
+                    checked=(true ? patient.Gender == "Nu" : false)
+                )
+                label(for="nu" class="form-check-label") Nữ
+            div(class="form-group")
+                label(for="Address") Địa chỉ
+                input(
+                    type="text"
+                    class="form-control"
+                    id="Address"
+                    name="Address"
+                    value=patient.Address
+                    required 
+                )
+            div(class="form-group")
+                label(for="Phone_Number") Số điện thoại
+                input(
+                    type="text"
+                    class="form-control"
+                    id="Phone_Number"
+                    name="Phone_Number"
+                    value=patient.Phone_Number
+                    required 
+                )
+            div(class="form-group")
+                button(
+                    type="submit"
+                    class="btn btn-primary"
+                ) Cập nhật thông tin 
+            

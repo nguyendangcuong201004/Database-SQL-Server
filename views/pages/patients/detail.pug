@@ -1,0 +1,11 @@
+extends ../../layouts/default.pug 
+
+block main
+    .container 
+        h2 Bệnh nhân #{patient.FullName}
+        div(class="mb-4") Mã số bệnh nhân: #{patient.PatientID}
+        div(class="mb-4") Email đăng ký: #{patient.Email}
+        div(class="mb-4") Ngày sinh: #{patient.birth}
+        div(class="mb-4") Giới tính: #{patient.Gender}
+        div(class="mb-4") Địa chỉ: #{patient.Address}   
+        div(class="mb-4") Số điện thoại: #{patient.Phone_Number  }
