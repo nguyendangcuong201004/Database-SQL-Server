@@ -8,4 +8,7 @@ block main
         div(class="mb-4") Ngày sinh: #{patient.birth}
         div(class="mb-4") Giới tính: #{patient.Gender}
         div(class="mb-4") Địa chỉ: #{patient.Address}   
-        div(class="mb-4") Số điện thoại: #{patient.Phone_Number  }
+        div(class="mb-4") Danh sách các số điện thoại:
+            each phone, index in patient.phones
+                div Số điện thoại #{index + 1}: #{phone.PatientPhoneNumber}
+

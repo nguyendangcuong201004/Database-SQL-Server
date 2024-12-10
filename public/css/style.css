@@ -175,3 +175,12 @@ table th.action {
     }
 }
 /* show alert */
+
+
+.container .form-group .phone {
+    display: flex;
+}
+
+.container .form-group .phone input {
+    margin-right: 30px;
+}

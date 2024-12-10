@@ -48,3 +48,18 @@ if (listButtonRestore.length > 0){
         })
     })
 }
+
+
+const buttonAddPhone = document.querySelector('[button-add-phone]')
+const inputPhone = document.querySelector('[input-phone]')
+
+if (buttonAddPhone){
+    const formAddPhone = document.querySelector('[form-add-phone]')
+    buttonAddPhone.addEventListener("click", () => {
+        const value = inputPhone.value;
+        const path = formAddPhone.getAttribute('data-patch')
+        const action = path + `/${value}`
+        formAddPhone.action = action;
+        formAddPhone.submit()
+    })
+}

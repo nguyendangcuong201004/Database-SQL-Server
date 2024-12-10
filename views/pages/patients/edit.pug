@@ -51,8 +51,8 @@ block main
                     class="form-check-input"
                     id="nam"
                     name="Gender"
-                    value="Nam"
-                    checked=(true ? patient.Gender == "Nam" : false)
+                    value="Male"
+                    checked=(true ? patient.Gender == "Male" : false)
                 )
                 label(for="statusActive" class="form-check-label") Nam
             div(class="form-group form-check form-check-inline")
@@ -61,8 +61,8 @@ block main
                     class="form-check-input"
                     id="nu"
                     name="Gender"
-                    value="Nu"
-                    checked=(true ? patient.Gender == "Nu" : false)
+                    value="Female"
+                    checked=(true ? patient.Gender == "Female" : false)
                 )
                 label(for="nu" class="form-check-label") Nữ
             div(class="form-group")
@@ -77,17 +77,33 @@ block main
                 )
             div(class="form-group")
                 label(for="Phone_Number") Số điện thoại
-                input(
-                    type="text"
-                    class="form-control"
-                    id="Phone_Number"
-                    name="Phone_Number"
-                    value=patient.Phone_Number
-                    required 
-                )
+                div.phone
+                    input(
+                        type="text"
+                        class="form-control"
+                        id="Phone_Number"
+                        name="Phone_Number"
+                        style="width: 200px;"
+                        input-phone
+                    )
+                    div(
+                        button-add-phone
+                        class="btn btn-primary"
+                    ) Thêm 
+                each phone in phones    
+                    div 
+                        span #{phone.PatientPhoneNumber} 
+                        a(href=`/patients/delete/${patient.PatientID}/${phone.PatientPhoneNumber}`) 
+                            if (phones.length > 1)
+                                <i class="fa-solid fa-delete-left"></i>
             div(class="form-group")
                 button(
                     type="submit"
                     class="btn btn-primary"
                 ) Cập nhật thông tin 
             
+    form(
+        form-add-phone
+        method='POST' 
+        action="" 
+        data-patch=`/patients/edit/${patient.PatientID}`)
