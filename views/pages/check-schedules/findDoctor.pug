@@ -1,0 +1,43 @@
+extends ../../layouts/default.pug 
+include ../../mixins/alert.pug
+
+block main
+    .container
+        h1 Tìm kiếm Bác sĩ phù hợp với lịch tư vấn của bạn! 
+        form(
+            action=`/check-schedules/find?_method=POST`
+            id="form-check-schedules"
+            method="POST"
+        )
+            div(class="form-group")
+                label(for="AppointmentDate") Ngày khám
+                input(
+                    type="date"
+                    class="form-control"
+                    id="AppointmentDate"
+                    name="AppointmentDate"
+                    required 
+                )
+            div(class="form-group")
+                label(for="AppointmentTime") Giờ khám
+                input(
+                    type="time"
+                    class="form-control"
+                    id="AppointmentTime"
+                    name="AppointmentTime"
+                    required 
+                )
+            div(class="form-group")
+                label(for="ServiceType") Dịch vụ khám
+                input(
+                    type="text"
+                    class="form-control"
+                    id="ServiceType"
+                    name="ServiceType"
+                    required 
+                )
+            div(class="form-group")
+                button(
+                    type="submit"
+                    class="btn btn-primary"
+                ) Tìm kiếm

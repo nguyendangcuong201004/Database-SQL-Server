@@ -63,3 +63,80 @@ if (buttonAddPhone){
         formAddPhone.submit()
     })
 }
+
+
+const formSearch = document.querySelector("#form-search");
+if (formSearch){
+    let url = new URL(location.href);
+
+    formSearch.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const value = e.target.elements.keyword.value.trim();
+        if (value){
+            url.searchParams.set("keyword", value);
+        }
+        else {
+            url.searchParams.delete("keyword");
+        }
+        location.href = url.href;
+    })
+}
+
+
+
+const listButtonStatus = document.querySelectorAll("[button-status]");
+
+if (listButtonStatus.length > 0){
+
+    let url = new URL(location.href);
+
+    listButtonStatus.forEach((item) => {
+        item.addEventListener("click", () => {
+
+
+            if (item.getAttribute("button-status") != ""){
+                url.searchParams.set("status", item.getAttribute("button-status"));              
+            }
+            else {
+                url.searchParams.delete("status");   
+            }
+            location.href = url.href;
+        })
+    })
+}   
+
+
+
+
+
+
+
+const sort = document.querySelector("[sort]");
+if (sort){
+    let url = new URL(location.href);
+    const sortSelect = sort.querySelector("[sort-select]");
+    sortSelect.addEventListener("change", () => {
+        const [sortKey, sortValue] = sortSelect.value.split("-");
+        url.searchParams.set("sortKey", sortKey);
+        url.searchParams.set("sortValue", sortValue);
+        location.href = url.href;
+    })
+    const selectedSortKey = url.searchParams.get("sortKey");
+    const selectedSortValue = url.searchParams.get("sortValue");
+    if(selectedSortKey && selectedSortValue){
+        const stringSort = selectedSortKey + "-" + selectedSortValue;
+        const optionSelected = sortSelect.querySelector(`option[value='${stringSort}'`);
+        optionSelected.selected = true;
+
+    }
+}
+
+const sortClear = document.querySelector("[sort-clear]");
+if(sortClear){
+    let url = new URL(location.href);
+    sortClear.addEventListener("click", () => {
+        url.searchParams.delete("sortKey");
+        url.searchParams.delete("sortValue");
+        location.href = url.href;
+    })
+}

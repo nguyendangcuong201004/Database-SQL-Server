@@ -1,0 +1,36 @@
+extends ../../layouts/default.pug 
+include ../../mixins/alert.pug
+
+block main
+    .container
+
+        .card.mb-3 
+            .card-header Danh sách các lịch tư vấn
+            .card-body 
+                .row     
+                    .col-8 
+                    .col-4 
+            table(
+                class="table table-hover table-sm patients"
+                )
+                thead 
+                    tr 
+                        th(style="text-align: center") ConsultantID
+                        th Bệnh nhân
+                        th Dịch vụ
+                        th Ngày hẹn khám
+                        th Phòng Khám
+                        th Hành động
+                tbody 
+                    each schedule in schedules
+                        tr
+                            td(style="text-align: center") #{schedule.ConsultantID}
+                            td #{schedule.fullName}
+                            td #{schedule.Type}
+                            td #{schedule.atime}
+                            td #{schedule.In_RoomID}
+                            td
+                                a(
+                                    class="btn btn-info btn-sm"
+                                    href=`check-schedules/find/${schedule.ConsultantID}`
+                                ) Xem Bác sĩ phù hợp

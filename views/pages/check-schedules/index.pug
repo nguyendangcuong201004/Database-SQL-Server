@@ -1,0 +1,94 @@
+extends ../../layouts/default.pug 
+include ../../mixins/alert.pug
+
+block main
+    .container
+
+        +alert-success()
+        +alert-error()
+
+        
+        .card.mb-3 
+            .card-header Danh sách các Bác sỹ phù hợp với lịch tư vấn của bạn!
+            .card-body 
+                .row     
+                    .col-8 
+                        form(id="form-search")
+                            .input-group
+                                input(type="text" placeholder="Nhập từ khóa" name="keyword" class="form-control" value=keyword)
+                                .input-group-append
+                                    button(class="btn btn-info" type="submit") Tìm
+                    .col-4 
+                        button(
+                                class=`btn btn-sm ml-1 btn-outline-success all active`
+                                button-status="all"
+                            ) Tất cả
+                        button(
+                                class=`btn btn-sm ml-1 btn-outline-success w7h active`
+                                button-status="w7h"
+                            ) Ca 7:00
+                        button(
+                                class=`btn btn-sm ml-1 btn-outline-success w8h active`
+                                button-status="w8h"
+                            ) Ca 8:00
+                        button(
+                                class=`btn btn-sm ml-1 btn-danger`
+                                 button-status=""
+                            ) Xóa
+        .card.mb-3
+            .card-header Sắp xếp 
+            .card-body  
+                .row 
+                    .col-4
+                        div(sort)
+                            select(
+                                class="form-control"
+                                name="sort"
+                                sort-select 
+                            ) 
+                                option(value="DoctorID-ASC") DoctorID tăng dần
+                                option(value="DoctorID-DESC") DoctorID giảm dần
+                                option(value="FullName-ASC") Tên từ A - Z 
+                                option(value="FullName-DESC") Tên từ Z - A 
+                            button(
+                                class="btn btn-danger mt-2"
+                                sort-clear
+                            ) Clear
+
+            table(
+                class="table table-hover table-sm patients"
+                )
+                thead 
+                    tr 
+                        th(style="text-align: center") DoctorID
+                        th Họ và tên
+                        th Giờ bắt đầu
+                        th Giờ kết thúc 
+                        th Trạng thái
+                        //- th(class="action") Hành động
+                tbody 
+                    each doctor in doctors
+                        tr
+                            td(style="text-align: center") #{doctor.DoctorID}
+                            td #{doctor.FullName}
+                            td #{doctor.startTime}
+                            td #{doctor.endTime}
+                            td #{doctor.Status}
+                            //- td
+                            //-     a(
+                            //-         class="btn btn-warning btn-sm"
+                            //-         href=``
+                            //-     ) Chỉnh sửa
+                            //-     button(
+                            //-         class="btn btn-danger btn-sm ml-1"
+                            //-         button-delete=""
+                            //-         patient-id) Xóa
+                            //-     a(
+                            //-         class="btn btn-info btn-sm ml-1"
+                            //-         href=``
+                            //-     ) Chi tiết 
+        form(
+            form-delete-button
+            method='POST' 
+            action="" 
+            data-patch=`patients/delete`)
