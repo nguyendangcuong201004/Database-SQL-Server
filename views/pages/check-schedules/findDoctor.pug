@@ -5,9 +5,8 @@ block main
     .container
         h1 Tìm kiếm Bác sĩ phù hợp với lịch tư vấn của bạn! 
         form(
-            action=`/check-schedules/find?_method=POST`
+            action=`/check-schedules/find`
             id="form-check-schedules"
-            method="POST"
         )
             div(class="form-group")
                 label(for="AppointmentDate") Ngày khám
@@ -28,16 +27,24 @@ block main
                     required 
                 )
             div(class="form-group")
-                label(for="ServiceType") Dịch vụ khám
-                input(
-                    type="text"
+                select(
                     class="form-control"
-                    id="ServiceType"
-                    name="ServiceType"
-                    required 
-                )
+                    name="ServiceID"
+                    service-select 
+                ) 
+                    option(selected value="") --Lựa chọn dịch vụ-- 
+                    option(value="1") Khám mắt
+                    option(value="3") Phẫu thuật đục thủy tinh thể
+                    option(value="2") Điều trị tật khúc xạ
+                    option(value="4") Phẫu thuật khúc xạ
+                    option(value="5") Tạo hình mắt thẩm mỹ
+                    option(value="6") Phẫu thuật ghép giác mạc
+                    option(value="8") Nhãn nhi
+                    option(value="9") Điều trị lác
+                    option(value="7") Điều trị cườm nước 
             div(class="form-group")
                 button(
                     type="submit"
                     class="btn btn-primary"
-                ) Tìm kiếm
+                ) Tìm bác sĩ phù hợp
+            

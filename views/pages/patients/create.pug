@@ -16,22 +16,28 @@ block main
             method="POST"
         )
             div(class="form-group")
+                label(for="CCCD") CCCD
+                input(
+                    type="text"
+                    class="form-control"
+                    id="CCCD"
+                    name="CCCD"
+                )
+            div(class="form-group")
                 label(for="FullName") Họ và tên
                 input(
                     type="text"
                     class="form-control"
                     id="FullName"
                     name="FullName"
-                    required 
                 )
             div(class="form-group")
                 label(for="Email") Email
                 input(
-                    type="email"
+                    type="text"
                     class="form-control"
                     id="Email"
                     name="Email"
-                    required 
                 )
             div(class="form-group")
                 label(for="Date_Of_Birth") Ngày sinh
@@ -40,7 +46,6 @@ block main
                     class="form-control"
                     id="Date_Of_Birth"
                     name="Date_Of_Birth"
-                    required 
                 )
             div(class="form-group form-check form-check-inline")
                 input(
@@ -67,7 +72,6 @@ block main
                     class="form-control"
                     id="Address"
                     name="Address"
-                    required 
                 )
             div(class="form-group")
                 label(for="Phone_Number") Số điện thoại
@@ -76,7 +80,6 @@ block main
                     class="form-control"
                     id="Phone_Number"
                     name="Phone_Number"
-                    required 
                 )
             div(class="form-group")
                 button(

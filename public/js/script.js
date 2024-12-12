@@ -93,12 +93,22 @@ if (listButtonStatus.length > 0){
     listButtonStatus.forEach((item) => {
         item.addEventListener("click", () => {
 
-
             if (item.getAttribute("button-status") != ""){
-                url.searchParams.set("status", item.getAttribute("button-status"));              
+                if (item.getAttribute("button-status") == "visit"){
+                    const input = document.querySelector('input[status-visit]')
+                    console.log(input)
+                    url.searchParams.set("statusVisit", input.value);  
+                }
+                else if (item.getAttribute("button-status") == "patient"){
+                    const input = document.querySelector('input[status-patient]')
+                    url.searchParams.set("statusPatient", input.value);  
+                }
+                else url.searchParams.set("status", item.getAttribute("button-status"));              
             }
             else {
                 url.searchParams.delete("status");   
+                url.searchParams.delete("statusVisit");   
+                url.searchParams.delete("statusPatient");   
             }
             location.href = url.href;
         })
@@ -137,6 +147,33 @@ if(sortClear){
     sortClear.addEventListener("click", () => {
         url.searchParams.delete("sortKey");
         url.searchParams.delete("sortValue");
+        location.href = url.href;
+    })
+}
+
+
+const filter = document.querySelector("[filter]");
+if (filter){
+    let url = new URL(location.href);
+    const filterSelect = filter.querySelector("[filter-select]");
+    filterSelect.addEventListener("change", () => {
+        const service = filterSelect.value;
+        url.searchParams.set("service", service);
+        location.href = url.href;
+    })
+    const selectedFilter = url.searchParams.get("service");
+    if(selectedFilter){
+        const stringFilter = selectedFilter;
+        const optionSelected = filterSelect.querySelector(`option[value='${stringFilter}'`);
+        optionSelected.selected = true;
+    }
+}
+
+const filterClear = document.querySelector("[filter-clear]");
+if(filterClear){
+    let url = new URL(location.href);
+    filterClear.addEventListener("click", () => {
+        url.searchParams.delete("service");
         location.href = url.href;
     })
 }

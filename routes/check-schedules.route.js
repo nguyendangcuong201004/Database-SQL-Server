@@ -3,9 +3,9 @@ const router = express.Router()
 
 const controller = require("../controllers/check-schedules.controller.js")
 
-router.get("/", controller.index)
+router.get("/", controller.findSchedule)
 
-router.get("/find/:id", controller.find)
+router.get("/find", controller.find)
 
 
 module.exports = router;

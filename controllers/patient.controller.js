@@ -1,4 +1,4 @@
-const { testConnection, executeQuery } = require('../configs/database.js');
+const { testConnection, executeQuery, executeQueryWithMessages } = require('../configs/database.js');
 const sql = require("msnodesqlv8");
 
 module.exports.index = async (req, res) => {
@@ -55,20 +55,34 @@ module.exports.create = (req, res) => {
 
 
 module.exports.createPost = async (req, res) => {
-    const query = ` INSERT INTO Patient (FullName, Email, Date_Of_Birth, Gender, Address, isDeleted)
-                    VALUES
-                    ('${req.body.FullName}', '${req.body.Email}', '${req.body.Date_Of_Birth}', '${req.body.Gender}', '${req.body.Address}', 0);
+    const query = ` EXEC insert_patient 
+    @CIC = '${req.body.CCCD}',
+    @FullName = '${req.body.FullName}',
+    @Email = '${req.body.Email}',
+    @PhoneNumber = '${req.body.Phone_Number}', 
+    @Date_Of_Birth = '${req.body.Date_Of_Birth}',
+    @Gender = '${req.body.Gender}',
+    @Address = '${req.body.Address}';
                 `
-    await executeQuery(query)     
-    const newPatient = await executeQuery(`SELECT * FROM Patient WHERE isDeleted = 0 AND Email = '${req.body.Email}'`);
-    console.log(newPatient)
-    console.log(req.body.Phone_Number)
-    await executeQuery(`INSERT INTO Patient_Phone_Number (PatientID, PatientPhoneNumber)
-                        VALUES
-                        ('${newPatient[0].PatientID}', '${req.body.Phone_Number}');
-                        `)     
-    req.flash('success', 'Thêm mới bệnh nhân thành công!');
-    res.redirect("back")
+    // const { result, messages } = await executeQueryWithMessages(query)    
+
+    // console.log(messages)
+
+    // req.flash('success', `${messages}`);
+    // res.redirect("back")
+    try {
+        const { result, messages } = await executeQueryWithMessages(query);
+
+        console.log("Thông báo từ SQL Server:", messages);
+        req.flash("success", `Thêm bệnh nhân mới thành công!`);
+        res.redirect("back");
+    } catch (error) {
+
+        console.error("Lỗi khi thực thi query:", error);
+        const noti = error.error.replace(/\[Microsoft\]\[ODBC Driver 17 for SQL Server\]\[SQL Server\]/, '');
+        req.flash("error", `${noti}`);
+        res.redirect("back");
+    }
 }
 
 
@@ -100,30 +114,44 @@ module.exports.editPatch = async (req, res) => {
 
     const PatientID = req.params.id;
 
-    await executeQuery(`UPDATE Patient
-                        SET 
-                            FullName = '${req.body.FullName}', 
-                            Email = '${req.body.Email}', 
-                            Date_Of_Birth = '${req.body.Date_Of_Birth}', 
-                            Gender = '${req.body.Gender}', 
-                            Address = '${req.body.Address}'
-                        WHERE PatientId = ${PatientID};
-                        `);
+    
+    const patient = await executeQuery(`SELECT CIC FROM Patient WHERE PatientID = '${PatientID}'`);
 
+    // console.log(patient[0].CIC)
 
-    req.flash('success', 'Cập nhật thông tin thành công!');
-    res.redirect("back")
+    const query = `EXEC update_patient 
+    @CIC = '${patient[0].CIC}',
+    @FullName = '${req.body.FullName}', 
+    @Email = '${req.body.Email}', 
+    @Date_Of_Birth = '${req.body.Date_Of_Birth}', 
+    @Gender = '${req.body.Gender}', 
+    @Address = '${req.body.Address}', 
+    @isDeleted = 0;
+                        `
+
+    try {
+        const { result, messages } = await executeQueryWithMessages(query);
+
+        console.log("Thông báo từ SQL Server:", messages);
+        req.flash("success", `Cập nhật thành công!`);
+        res.redirect("back");
+    } catch (error) {
+
+        console.error("Lỗi khi thực thi query:", error);
+        const noti = error.error.replace(/\[Microsoft\]\[ODBC Driver 17 for SQL Server\]\[SQL Server\]/, '');
+        req.flash("error", `${noti}`);
+        res.redirect("back");
+    }
+
 }
 
 module.exports.delete = async (req, res) => {
 
     const PatientID = req.params.id;
 
+    const patient = await executeQuery(`SELECT CIC FROM Patient WHERE PatientID = '${PatientID}'`);
 
-    await executeQuery(`UPDATE Patient
-                        SET 
-                            isDeleted = 1
-                        WHERE PatientId = ${PatientID};
+    await executeQuery(`EXEC delete_patient @CIC = '${patient[0].CIC}';
                         `);
 
 
@@ -170,11 +198,12 @@ module.exports.addPhone = async (req, res) => {
     const patientId = req.params.id;
     const phone = req.params.sdt;
     
+    const patient = await executeQuery(`SELECT CIC FROM Patient WHERE PatientID = '${patientId}'`);
 
-    await executeQuery(`INSERT INTO Patient_Phone_Number (PatientID, PatientPhoneNumber)
-                        VALUES
-                        ('${patientId}', '${phone}');
-                        `)     
+    await executeQuery(`EXEC update_patient 
+    @CIC = '${patient[0].CIC}',
+    @PhoneNumber = '${phone}', 
+    @isDeleted = 0; `)     
 
     res.redirect("back")
 }

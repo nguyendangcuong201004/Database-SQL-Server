@@ -1,0 +1,64 @@
+extends ../../layouts/default.pug 
+include ../../mixins/alert.pug
+
+block main
+    .container
+
+        +alert-success()
+        +alert-error()
+
+        
+        .card.mb-3 
+            .card-header Danh sách bệnh nhân chưa hoàn thành đủ dịch vụ đã đăng ký
+            .card-body 
+                .row     
+                    .col-6
+                        form(id="form-search")
+                            .input-group
+                                input(type="text" placeholder="Nhập từ khóa" name="keyword" class="form-control" value=keyword)
+                                .input-group-append
+                                    button(class="btn btn-info" type="submit") Tìm
+                    .col-6
+                        div(filter)
+                            select(
+                                class="form-control"
+                                name="filter"
+                                filter-select 
+                            ) 
+                                option(selected value="") --Lọc theo dịch vụ-- 
+                                option(value="Kham-mat") Khám mắt
+                                option(value="Phau-thuat-duc-thuy-tinh-the") Phẫu thuật đục thủy tinh thể
+                                option(value="Dieu-tri-tat-khuc-xa") Điều trị tật khúc xạ
+                                option(value="Phau-thuat-khuc-xa") Phẫu thuật khúc xạ
+                                option(value="Tao-hinh-mat-tham-my") Tạo hình mắt thẩm mỹ
+                                option(value="Phau-thuat-ghep-giac-mac") Phẫu thuật ghép giác mạc
+                                option(value="Nhan-nhi") Nhãn nhi
+                                option(value="Dieu-tri-lac") Điều trị lác
+                                option(value="Dieu-tri-cuom-nuoc") Điều trị cườm nước
+                            button(
+                                class="btn btn-danger mt-2"
+                                filter-clear
+                            ) Clear
+            table(
+                class="table table-hover table-sm patients"
+                )
+                thead 
+                    tr 
+                        th(style="text-align: center") STT
+                        th Họ và tên
+                        th Số điện thoại
+                        th Ngày đăng ký khám
+                        th(style="padding-left: 40px") Dịch vụ khám
+                tbody 
+                    each patient, index in patients
+                        tr
+                            td(style="text-align: center") #{index + 1}
+                            td #{patient.Patient_name}
+                            td #{patient.PhoneNumbers}
+                            td #{patient.atime}
+                            td #{patient.Service_Name}
+        form(
+            form-delete-button
+            method='POST' 
+            action="" 
+            data-patch=`patients/delete`)

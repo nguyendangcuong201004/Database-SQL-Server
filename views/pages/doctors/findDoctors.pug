@@ -1,0 +1,78 @@
+extends ../../layouts/default.pug 
+include ../../mixins/alert.pug
+
+block main
+    .container
+
+        +alert-success()
+        +alert-error()
+        
+        h3 Tìm kiếm Bác sĩ có tổng số giờ khám nhiều nhất trong khoảng thời gian cụ thể
+
+        form(
+            action=`/doctors/find`
+            id="form-find-doctors"
+        )
+            div(class="form-group")
+                label(for="doctorCount") Số lượng Bác sĩ được hiển thị
+                input(
+                    type="number"
+                    class="form-control"
+                    id="doctorCount"
+                    name="doctorCount"
+                    required 
+                    min=1
+                )
+            div(class="form-group")
+                label(for="startDate") Ngày bắt đầu
+                input(
+                    type="date"
+                    class="form-control"
+                    id="startDate"
+                    name="startDate"
+                    required 
+                )
+            div(class="form-group")
+                label(for="endDate") Ngày kết thúc
+                input(
+                    type="date"
+                    class="form-control"
+                    id="endDate"
+                    name="endDate"
+                    required 
+                )
+            div(class="mb-3") Sắp xếp theo tiêu chí
+            div(class="form-group form-check form-check-inline")
+                input(
+                    type="radio"
+                    class="form-check-input"
+                    id="Visits"
+                    name="sortBy"
+                    value="Visits"
+                )
+                label(for="Visits" class="form-check-label") Số lần khám
+            div(class="form-group form-check form-check-inline")
+                input(
+                    type="radio"
+                    class="form-check-input"
+                    id="Patients"
+                    name="sortBy"
+                    value="Patients"
+                )
+                label(for="Patients" class="form-check-label") Số bệnh nhân thăm khám
+            div(class="form-group")
+                label(for="minCount") Ngưỡng tối thiểu
+                input(
+                    type="number"
+                    class="form-control"
+                    id="minCount"
+                    name="minCount"
+                    min=1
+                    required 
+                )
+            div(class="form-group")
+                button(
+                    type="submit"
+                    class="btn btn-primary"
+                ) Tìm Bác sĩ
+            

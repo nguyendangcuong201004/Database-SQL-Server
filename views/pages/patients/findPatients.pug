@@ -1,0 +1,39 @@
+extends ../../layouts/default.pug 
+include ../../mixins/alert.pug
+
+block main
+    .container
+
+        +alert-success()
+        +alert-error()
+        
+        h3 Tìm các bệnh nhân chưa hoàn thành đủ dịch vụ đã đăng ký trong thời gian cụ thể
+
+        form(
+            action=`/patient-incomplete/find`
+            id="form-find-doctors"
+        )
+            div(class="form-group")
+                label(for="startDate") Ngày bắt đầu
+                input(
+                    type="date"
+                    class="form-control"
+                    id="startDate"
+                    name="startDate"
+                    required 
+                )
+            div(class="form-group")
+                label(for="endDate") Ngày kết thúc
+                input(
+                    type="date"
+                    class="form-control"
+                    id="endDate"
+                    name="endDate"
+                    required 
+                )
+            div(class="form-group")
+                button(
+                    type="submit"
+                    class="btn btn-primary"
+                ) Tìm
+            

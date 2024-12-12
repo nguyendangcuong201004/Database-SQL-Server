@@ -19,22 +19,6 @@ block main
                                 .input-group-append
                                     button(class="btn btn-info" type="submit") Tìm
                     .col-4 
-                        button(
-                                class=`btn btn-sm ml-1 btn-outline-success all active`
-                                button-status="all"
-                            ) Tất cả
-                        button(
-                                class=`btn btn-sm ml-1 btn-outline-success w7h active`
-                                button-status="w7h"
-                            ) Ca 7:00
-                        button(
-                                class=`btn btn-sm ml-1 btn-outline-success w8h active`
-                                button-status="w8h"
-                            ) Ca 8:00
-                        button(
-                                class=`btn btn-sm ml-1 btn-danger`
-                                 button-status=""
-                            ) Xóa
         .card.mb-3
             .card-header Sắp xếp 
             .card-body  
@@ -46,8 +30,8 @@ block main
                                 name="sort"
                                 sort-select 
                             ) 
-                                option(value="DoctorID-ASC") DoctorID tăng dần
-                                option(value="DoctorID-DESC") DoctorID giảm dần
+                                option(value="StaffID-ASC") DoctorID tăng dần
+                                option(value="StaffID-DESC") DoctorID giảm dần
                                 option(value="FullName-ASC") Tên từ A - Z 
                                 option(value="FullName-DESC") Tên từ Z - A 
                             button(
@@ -69,10 +53,10 @@ block main
                 tbody 
                     each doctor in doctors
                         tr
-                            td(style="text-align: center") #{doctor.DoctorID}
+                            td(style="text-align: center") #{doctor.StaffID}
                             td #{doctor.FullName}
-                            td #{doctor.startTime}
-                            td #{doctor.endTime}
+                            td #{doctor.atime}
+                            td #{doctor.etime}
                             td #{doctor.Status}
                             //- td
                             //-     a(
